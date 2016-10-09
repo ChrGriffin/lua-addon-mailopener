@@ -34,11 +34,34 @@ function MailOpener:OnEnable()
 	-- the fourth and fifth arguments are Offset X and Offset Y, respectively
 	-- these are the same hard values as before
 	button:SetPoint("TOPRIGHT", InboxFrame, "TOPRIGHT", -55, -25)
+	-- set the button text
 	button:SetText("Open Mail")
-	--button:SetScript("OnClick", function() Postal_OpenAll:OpenAll() end)
+	-- set the frame level of the button
+	-- currently not 100% clear on what this does
+	-- context, however, would indicate that it's essentially the 'z-axis' position
+	-- I would imagine this is simply to position it ABOVE certain elements that might cover it otherwise
 	button:SetFrameLevel(button:GetFrameLevel() + 1)
+	-- set a script to be called on click
+	-- SetScript has two arguments
+	-- the first argument is the handler (essentially, which event calls the script)
+	-- in this case, that would be 'OnClick'
+	-- the second argument is the actual script to be run
+	-- in this case, the script to be run simply calls another function
+	-- but it would be entirely possible to have an 'inline' or 'embedded' function instead
+	-- the script can also be set to nil to remove the handler
+	-- (for example, if there is default behaviour you want to remove)
+	-- a good example of common usage of removing default behaviour is:
+	-- PartyMemberFrame1:SetScript("OnShow", nil)
+	-- this would prevent the default party frame from displaying...
+	-- ...allowing you to display your own custom one
+	button:SetScript("OnClick", function() MailOpener:TestAlert() end)
 end
 
 function MailOpener:OnDisable()
 	-- when the addon is disabled
+end
+
+-- test function to determine if the button is registering clicks and calling the function
+function MailOpener:TestAlert()
+	MailOpener:Print('The button is working!')
 end
