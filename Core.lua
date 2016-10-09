@@ -63,5 +63,18 @@ end
 
 -- test function to determine if the button is registering clicks and calling the function
 function MailOpener:TestAlert()
+	-- we're gonna paint a happy little message to let us known the button is working
 	MailOpener:Print('The button is working!')
+	-- GetInboxNumItems returns two numbers
+	-- the first number is the amount of messages currently being displayed in the inbox
+	-- (the max is 50 if memory serves? I might be wrong, test it later)
+	-- the second number is the total amount of messages in the inbox
+	-- if you have more than the maximum showable messages in your mailbox, there will be a...
+	---...small delay for the mailbox to refresh and display the next set of messages once you've...
+	-- ...cleared out the first batch
+	shownItems, totalItems = GetInboxNumItems()
+	-- some more happy little messages to display some debug information
+	MailOpener:Print('shownItems: ' .. shownItems)
+	MailOpener:Print('totalItems: ' .. totalItems)
+	
 end
