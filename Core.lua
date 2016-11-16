@@ -76,5 +76,34 @@ function MailOpener:TestAlert()
 	-- some more happy little messages to display some debug information
 	MailOpener:Print('shownItems: ' .. shownItems)
 	MailOpener:Print('totalItems: ' .. totalItems)
-	
+	-- using shownItems as the index, loop through every message
+	-- for my own reference: note the syntax of the for loop, slightly different than PHP or JS
+	-- in particular, note that the middle value (the 'ceiling', if you will) differs functionally
+	-- in PHP or JS, the 'middle' section must evaluate to true for the loop to continue
+	-- ie, for(i=0, i<=shownItems, 1++)
+	-- whereas in Lua the middle value is the maximum value i can be before it stops running
+	-- notably, it's the maximum value INCLUSIVELY
+	-- so if you have two items in your mailbox, this will run twice, not once as it might in PHP
+	-- this caused great confusion initially as I was trying to set the maximum to shownItems+1
+	for i=1, shownItems, 1 do
+		-- get information about this message
+		packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, hasItem, wasRead, wasReturned, textCreated, canReply, isGM = GetInboxHeaderInfo(i);
+		
+		-- MailOpener:Print('Message ' .. i .. ', packageIcon: ' .. tostring(packageIcon)) -- texture path for package icon if it contains a package (nil otherwise)
+		-- MailOpener:Print('Message ' .. i .. ', stationeryIcon: ' .. stationeryIcon) -- texture path for mail message icon
+		-- MailOpener:Print('Message ' .. i .. ', sender: ' .. sender) -- name of the player who sent the message
+		-- MailOpener:Print('Message ' .. i .. ', subject: ' .. subject) -- the message subject
+		-- MailOpener:Print('Message ' .. i .. ', money: ' .. money) -- the amount of money attached (inc. 0)
+		-- MailOpener:Print('Message ' .. i .. ', CODAmount: ' .. CODAmount) -- the amount of COD payment required to receive the package (inc. 0)
+		-- MailOpener:Print('Message ' .. i .. ', daysLeft: ' .. daysLeft) -- The number of days before the message expires (fractional)
+		-- MailOpener:Print('Message ' .. i .. ', hasItem: ' .. tostring(hasItem)) -- either the number of attachments or nil if no items are present
+		-- MailOpener:Print('Message ' .. i .. ', wasRead: ' .. tostring(wasRead)) -- 1 if the mail has been read, nil otherwise
+		-- MailOpener:Print('Message ' .. i .. ', wasReturned: ' .. tostring(wasReturned)) -- 1 if the mail was returned, nil otherwise
+		-- MailOpener:Print('Message ' .. i .. ', textCreated: ' .. tostring(textCreated)) -- 1 if a letter object has been created from this mail, nil otherwise
+		-- MailOpener:Print('Message ' .. i .. ', canReply: ' .. tostring(canReply)) -- 1 if this letter can be replied to, nil otherwise
+		-- MailOpener:Print('Message ' .. i .. ', isGM: ' .. tostring(isGM)) -- 1 if this letter was sent by a GameMaster
+		
+		-- display a single message in chat about this message
+		MailOpener:Print('Message ' .. i .. '; From: ' .. sender .. '; Subject: ' .. subject .. '; Attached Items: ' .. tostring(hasItem))
+	end
 end
